@@ -1,2 +1,4 @@
 selenium-tests/venv/
 node_modules/
+__pycache__/
+*.pyc
