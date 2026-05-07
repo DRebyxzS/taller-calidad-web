@@ -5,8 +5,9 @@ BASE_URL = "http://automationpractice.com/index.php"
 def test_search_product(driver):
     home = HomePage(driver)
     home.open(BASE_URL)
-    home.search("dress")
 
-    # En un entorno con Selenium real, aquí podríamos validar resultados.
-    # De momento, solo verificamos que llegamos hasta aquí sin errores.
-    assert True
+    # NOTA:
+    # El sitio original de 'My Store' ha cambiado (aparece InMotion Hosting),
+    # por lo que no existe el campo de búsqueda 'search_query_top'.
+    # Este test se deja como placeholder hasta que el profesor defina un nuevo SUT.
+    assert driver.title != ""
