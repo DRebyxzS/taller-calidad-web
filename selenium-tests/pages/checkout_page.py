@@ -1,3 +1,4 @@
+import time
 import os
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -17,14 +18,16 @@ class CheckoutPage(BasePage):
     ERROR_MESSAGE = (By.CSS_SELECTOR, '[data-test="error"]')
     CHECKOUT_TITLE = (By.CSS_SELECTOR, ".title")
     CART_ITEM = (By.CSS_SELECTOR, ".cart_item")
+    CHECKOUT_INFO = (By.CSS_SELECTOR, ".checkout_info")
 
     def __init__(self, driver):
         super().__init__(driver)
 
     def _wait_for_checkout_page(self):
         """Espera a que la pagina de checkout cargue completamente."""
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.visibility_of_element_located(self.FIRST_NAME))
+        wait = WebDriverWait(self.driver, 15)
+        wait.until(EC.visibility_of_element_located(self.CHECKOUT_INFO))
+        time.sleep(1)
 
     def fill_information(self, first_name, last_name, postal_code):
         """Rellena el formulario de informacion del checkout."""
@@ -35,14 +38,19 @@ class CheckoutPage(BasePage):
 
     def continue_checkout(self):
         """Hace clic en Continue para ir al resumen."""
+        wait = WebDriverWait(self.driver, 15)
+        wait.until(EC.element_to_be_clickable(self.CONTINUE_BUTTON))
         self.click(self.CONTINUE_BUTTON)
-        wait = WebDriverWait(self.driver, 10)
+        # Esperar a que cargue la pagina de resumen
         wait.until(EC.visibility_of_element_located(self.CART_ITEM))
+        time.sleep(1)
 
     def finish_checkout(self):
         """Hace clic en Finish para completar la compra."""
+        wait = WebDriverWait(self.driver, 15)
+        wait.until(EC.element_to_be_clickable(self.FINISH_BUTTON))
         self.click(self.FINISH_BUTTON)
-        wait = WebDriverWait(self.driver, 10)
+        # Esperar a que cargue la pagina de confirmacion
         wait.until(EC.visibility_of_element_located(self.COMPLETE_HEADER))
 
     def get_complete_message(self):

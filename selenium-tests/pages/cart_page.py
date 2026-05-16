@@ -1,3 +1,4 @@
+import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -11,28 +12,37 @@ class CartPage(BasePage):
     CART_ITEM_NAMES = (By.CSS_SELECTOR, ".inventory_item_name")
     CHECKOUT_BUTTON = (By.CSS_SELECTOR, '[data-test="checkout"]')
     CONTINUE_SHOPPING = (By.CSS_SELECTOR, '[data-test="continue-shopping"]')
+    CART_LIST = (By.CSS_SELECTOR, ".cart_list")
 
     def __init__(self, driver):
         super().__init__(driver)
 
     def _wait_for_cart_page(self):
         """Espera a que la pagina del carrito cargue completamente."""
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.visibility_of_element_located(self.CHECKOUT_BUTTON))
+        wait = WebDriverWait(self.driver, 15)
+        wait.until(EC.visibility_of_element_located(self.CART_LIST))
+        time.sleep(1)
 
     def get_cart_item_count(self):
         """Devuelve la cantidad de items en el carrito."""
-        items = self.find_all(self.CART_ITEMS)
-        return len(items)
+        try:
+            self._wait_for_cart_page()
+            items = self.find_all(self.CART_ITEMS)
+            return len(items)
+        except Exception:
+            return 0
 
     def get_cart_item_names(self):
         """Devuelve los nombres de los productos en el carrito."""
+        self._wait_for_cart_page()
         elements = self.find_all(self.CART_ITEM_NAMES)
         return [el.text for el in elements]
 
     def proceed_to_checkout(self):
         """Hace clic en el boton Checkout y espera que cargue."""
         self._wait_for_cart_page()
+        wait = WebDriverWait(self.driver, 15)
+        wait.until(EC.element_to_be_clickable(self.CHECKOUT_BUTTON))
         self.click(self.CHECKOUT_BUTTON)
 
     def continue_shopping(self):

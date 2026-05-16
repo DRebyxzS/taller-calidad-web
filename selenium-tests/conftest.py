@@ -4,8 +4,10 @@ import sys
 from datetime import datetime
 from dotenv import load_dotenv
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 # Cargar variables de entorno desde .env
 load_dotenv()
@@ -16,32 +18,40 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 @pytest.fixture
 def driver():
-    """Fixture que provee un WebDriver de Chrome para los tests."""
-    options = webdriver.ChromeOptions()
+    """Fixture que provee un WebDriver para los tests."""
+    browser = os.environ.get("BROWSER", "firefox").lower()
 
-    # Opciones basicas
-    options.add_argument("--start-maximized")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
+    if browser == "chrome":
+        options = webdriver.ChromeOptions()
+        options.add_argument("--start-maximized")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
 
-    # Desactivar guardar contrasena
-    prefs = {
-        "credentials_enable_service": False,
-        "profile.password_manager_enabled": False,
-    }
-    options.add_experimental_option("prefs", prefs)
+        prefs = {
+            "credentials_enable_service": False,
+            "profile.password_manager_enabled": False,
+        }
+        options.add_experimental_option("prefs", prefs)
 
-    # Si estamos en CI (GitHub Actions), ejecutar sin interfaz grafica
-    if os.environ.get("CI") == "true":
-        options.add_argument("--headless=new")
-        options.add_argument("--window-size=1920,1080")
+        if os.environ.get("CI") == "true":
+            options.add_argument("--headless=new")
+            options.add_argument("--window-size=1920,1080")
 
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
+        service = ChromeService(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=options)
+
+    else:
+        # Firefox: sin popup de contraseñas comprometidas
+        options = webdriver.FirefoxOptions()
+
+        if os.environ.get("CI") == "true":
+            options.add_argument("--headless")
+
+        service = FirefoxService(GeckoDriverManager().install())
+        driver = webdriver.Firefox(service=service, options=options)
+
     driver.implicitly_wait(5)
-
     yield driver
-
     driver.quit()
 
 
