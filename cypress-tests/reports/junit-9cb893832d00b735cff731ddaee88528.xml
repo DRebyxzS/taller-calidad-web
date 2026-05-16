@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="28.365" tests="4" failures="2">
+  <testsuite name="Root Suite" timestamp="2026-05-16T19:57:49" tests="0" file="cypress\e2e\checkout.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Checkout flow con mocking de API" timestamp="2026-05-16T19:57:49" tests="4" time="28.362" failures="2">
+    <testcase name="Checkout flow con mocking de API completa el flujo de checkout como invitado" time="6.883" classname="completa el flujo de checkout como invitado">
+    </testcase>
+    <testcase name="Checkout flow con mocking de API simula respuesta lenta del backend con cy.intercept" time="0.000" classname="simula respuesta lenta del backend con cy.intercept">
+      <failure message="Timed out retrying after 10000ms: `cy.wait()` timed out waiting `10000ms` for the 1st request to the route: `slowResponse`. No request ever occurred.
+
+https://on.cypress.io/wait" type="CypressError"><![CDATA[CypressError: Timed out retrying after 10000ms: `cy.wait()` timed out waiting `10000ms` for the 1st request to the route: `slowResponse`. No request ever occurred.
+
+https://on.cypress.io/wait
+    at cypressErr (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:78521:18)
+    at Object.errByPath (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:78579:10)
+    at checkForXhr (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:139091:84)
+    at <unknown> (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:139116:28)
+    at tryCatcher (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1777:23)
+    at Promise.attempt.Promise.try (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:4285:29)
+    at whenStable (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:152243:70)
+    at <unknown> (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:152158:14)
+    at tryCatcher (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1777:23)
+    at Promise._settlePromiseFromHandler (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1489:31)
+    at Promise._settlePromise (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1546:18)
+    at Promise._settlePromise0 (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1591:10)
+    at Promise._settlePromises (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1671:18)
+    at Promise._fulfill (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1615:18)
+    at <unknown> (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:5420:46)]]></failure>
+    </testcase>
+    <testcase name="Checkout flow con mocking de API usa cy.intercept para simular error del servidor" time="0.000" classname="usa cy.intercept para simular error del servidor">
+      <failure message="Timed out retrying after 5000ms: `cy.wait()` timed out waiting `5000ms` for the 1st request to the route: `serverError`. No request ever occurred.
+
+https://on.cypress.io/wait" type="CypressError"><![CDATA[CypressError: Timed out retrying after 5000ms: `cy.wait()` timed out waiting `5000ms` for the 1st request to the route: `serverError`. No request ever occurred.
+
+https://on.cypress.io/wait
+    at cypressErr (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:78521:18)
+    at Object.errByPath (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:78579:10)
+    at checkForXhr (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:139091:84)
+    at <unknown> (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:139116:28)
+    at tryCatcher (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1777:23)
+    at Promise.attempt.Promise.try (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:4285:29)
+    at whenStable (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:152243:70)
+    at <unknown> (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:152158:14)
+    at tryCatcher (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1777:23)
+    at Promise._settlePromiseFromHandler (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1489:31)
+    at Promise._settlePromise (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1546:18)
+    at Promise._settlePromise0 (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1591:10)
+    at Promise._settlePromises (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1671:18)
+    at Promise._fulfill (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:1615:18)
+    at <unknown> (https://www.saucedemo.com/__cypress/runner/cypress_runner.js:5420:46)]]></failure>
+    </testcase>
+    <testcase name="Checkout flow con mocking de API verifica que el carrito muestra el producto correcto" time="1.297" classname="verifica que el carrito muestra el producto correcto">
+    </testcase>
+  </testsuite>
+</testsuites>

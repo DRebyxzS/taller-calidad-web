@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="4.798" tests="3" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-05-16T20:30:42" tests="0" file="cypress\e2e\login.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Login flow" timestamp="2026-05-16T20:30:42" tests="3" time="4.797" failures="0">
+    <testcase name="Login flow hace login con credenciales validas" time="2.877" classname="hace login con credenciales validas">
+    </testcase>
+    <testcase name="Login flow muestra error con credenciales invalidas" time="1.324" classname="muestra error con credenciales invalidas">
+    </testcase>
+    <testcase name="Login flow no permite login con campos vacios" time="0.391" classname="no permite login con campos vacios">
+    </testcase>
+  </testsuite>
+</testsuites>

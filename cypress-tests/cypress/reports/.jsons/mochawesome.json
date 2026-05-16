@@ -1,0 +1,162 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-05-16T21:32:02.720Z",
+    "end": "2026-05-16T21:32:18.307Z",
+    "duration": 15587,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "9eebf184-af74-4acb-b0c5-a6490aac185d",
+      "title": "",
+      "fullFile": "cypress\\e2e\\checkout.cy.js",
+      "file": "cypress\\e2e\\checkout.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "28b00ac4-fc77-4c86-92f5-b5962e0a4dfb",
+          "title": "Checkout flow con mocking de API",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "verifica que el carrito muestra el producto correcto",
+              "fullTitle": "Checkout flow con mocking de API verifica que el carrito muestra el producto correcto",
+              "timedOut": null,
+              "duration": 4153,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('.cart_item').should('have.length', 1);\ncy.get('.inventory_item_name').should('contain', 'Sauce Labs Backpack');",
+              "err": {},
+              "uuid": "3305d1fe-9056-4b4e-b4a0-20ee8edc00ac",
+              "parentUUID": "28b00ac4-fc77-4c86-92f5-b5962e0a4dfb",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "completa el flujo de checkout como invitado",
+              "fullTitle": "Checkout flow con mocking de API completa el flujo de checkout como invitado",
+              "timedOut": null,
+              "duration": 2570,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('[data-test=\"checkout\"]').click();\ncy.get('[data-test=\"firstName\"]').type('Juan');\ncy.get('[data-test=\"lastName\"]').type('Perez');\ncy.get('[data-test=\"postalCode\"]').type('110111');\ncy.get('[data-test=\"continue\"]').click();\ncy.location('pathname').should('eq', '/checkout-step-two.html');\ncy.get('[data-test=\"finish\"]').click();\ncy.location('pathname').should('eq', '/checkout-complete.html');\ncy.get('.complete-header').should('contain', 'Thank you');",
+              "err": {},
+              "uuid": "600231bc-27b5-42f5-87dd-88c436dd7e76",
+              "parentUUID": "28b00ac4-fc77-4c86-92f5-b5962e0a4dfb",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "simula respuesta lenta del backend con cy.intercept",
+              "fullTitle": "Checkout flow con mocking de API simula respuesta lenta del backend con cy.intercept",
+              "timedOut": null,
+              "duration": 6513,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Interceptamos un endpoint de pago simulado con retraso de 3 segundos\ncy.intercept('POST', '/api/pay', {\n  statusCode: 200,\n  body: {\n    status: 'success'\n  },\n  delay: 3000\n}).as('slowResponse');\ncy.get('[data-test=\"checkout\"]').click();\ncy.get('[data-test=\"firstName\"]').type('Juan');\ncy.get('[data-test=\"lastName\"]').type('Perez');\ncy.get('[data-test=\"postalCode\"]').type('110111');\ncy.get('[data-test=\"continue\"]').click();\ncy.location('pathname').should('eq', '/checkout-step-two.html');\n// Forzamos al NAVEGADOR a hacer la petición para que cy.intercept la capture\ncy.window().then(win => {\n  win.fetch('/api/pay', {\n    method: 'POST'\n  });\n});\n// Verificamos que el intercept capturó la llamada y que tardó más de 2900ms\ncy.wait('@slowResponse').its('response.statusCode').should('eq', 200); // <--- NUEVA LÍNEA",
+              "err": {},
+              "uuid": "cb96a8bb-39ea-421c-8586-7cf983f57dc4",
+              "parentUUID": "28b00ac4-fc77-4c86-92f5-b5962e0a4dfb",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "usa cy.intercept para simular error del servidor",
+              "fullTitle": "Checkout flow con mocking de API usa cy.intercept para simular error del servidor",
+              "timedOut": null,
+              "duration": 2006,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Simulamos que el servidor de pago falla con un error 500\ncy.intercept('POST', '/api/pay', {\n  statusCode: 500,\n  body: 'Internal Server Error'\n}).as('serverError');\ncy.get('[data-test=\"checkout\"]').click();\ncy.get('[data-test=\"firstName\"]').type('Juan');\ncy.get('[data-test=\"lastName\"]').type('Perez');\ncy.get('[data-test=\"postalCode\"]').type('110111');\ncy.get('[data-test=\"continue\"]').click();\ncy.location('pathname').should('eq', '/checkout-step-two.html');\n// Forzamos al NAVEGADOR a hacer la petición fallida\ncy.window().then(win => {\n  win.fetch('/api/pay', {\n    method: 'POST'\n  });\n});\n// Verificamos que el intercept capturó el error 500\ncy.wait('@serverError').its('response.statusCode').should('eq', 500);",
+              "err": {},
+              "uuid": "22c6e3d9-148d-4fd5-8e21-d2bb97af2648",
+              "parentUUID": "28b00ac4-fc77-4c86-92f5-b5962e0a4dfb",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "3305d1fe-9056-4b4e-b4a0-20ee8edc00ac",
+            "600231bc-27b5-42f5-87dd-88c436dd7e76",
+            "cb96a8bb-39ea-421c-8586-7cf983f57dc4",
+            "22c6e3d9-148d-4fd5-8e21-d2bb97af2648"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 15242,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress\\reports\\.jsons",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}
